@@ -55,7 +55,7 @@
             android:text="@string/register_password_information" />
 
         <EditText
-            android:id="@+id/register_password"
+            android:id="@+id/register_editText_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
