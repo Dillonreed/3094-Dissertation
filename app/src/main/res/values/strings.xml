@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Learn Digital Skills</string>
     <string name="logo_alt_text">App Logo</string>
-    
+
     <string name="welcome_button_register_text">Create Account</string>
     <string name="welcome_button_login_text">Login</string>
 
@@ -15,4 +15,9 @@
     <string name="register_button_terms_and_conditions_text">Terms and Conditions</string>
     <string name="register_checkbox_button_terms_and_conditions_text">I agree to the above Terms and Conditions</string>
     <string name="register_button_create_account_text">Create Account</string>
+
+    <string name="login_title">Login</string>
+    <string name="login_username_text">Username</string>
+    <string name="login_password_text">Password</string>
+    <string name="login_button_login_text">Login</string>
 </resources>
