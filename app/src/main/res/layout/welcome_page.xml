@@ -54,14 +54,14 @@
             style="@style/Button.Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register_button_text" />
+            android:text="@string/welcome_button_register_text" />
 
         <Button
             android:id="@+id/login_button"
             style="@style/Button.Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_button_text" />
+            android:text="@string/welcome_button_login_text" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
