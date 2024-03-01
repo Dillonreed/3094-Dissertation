@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Learn Digital Skills</string>
+    <string name="logo_alt_text">App Logo</string>
+    
+    <string name="register_button_text">Create Account</string>
+    <string name="login_button_text">Login</string>
+</resources>
