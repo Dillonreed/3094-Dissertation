@@ -3,12 +3,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:background="@drawable/grey_container"
     tools:context=".ui.settingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Settings" />
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/settings_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grey_container"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/settings_account_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_account_title"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/settings_button_notifications"
+                style="@style/Button.Black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/settings_button_notifications_text" />
+
+            <Button
+                android:id="@+id/settings_button_change_password"
+                style="@style/Button.Black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/settings_button_change_password_text" />
+
+            <Button
+                android:id="@+id/settings_button_log_out"
+                style="@style/Button.Black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/settings_button_log_out_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/grey_container"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/settings_other_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_other_title"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/settings_button_help"
+                style="@style/Button.Black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/settings_button_help_text" />
+
+            <Button
+                android:id="@+id/settings_button_contact_us"
+                style="@style/Button.Black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_button_contact_us_text"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grey_container"
+            android:orientation="vertical"
+            android:layout_marginTop="60dp">
+
+            <TextView
+                android:id="@+id/settings_dangerous_area_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_dangerous_area_title"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/settings_button_delete_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="@string/settings_button_delete_account_text" />
+        </LinearLayout>
+
+    </LinearLayout>
 </FrameLayout>

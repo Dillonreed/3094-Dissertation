@@ -24,6 +24,16 @@
     <string name="menu_home_text">Home</string>
     <string name="menu_articles_text">Articles</string>
     <string name="menu_settings_text">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_account_title">Account</string>
+    <string name="settings_button_notifications_text">Notifications</string>
+    <string name="settings_button_change_password_text">Change Password</string>
+    <string name="settings_button_log_out_text">Log Out</string>
+    <string name="settings_other_title">Other</string>
+    <string name="settings_button_help_text">Help</string>
+    <string name="settings_button_contact_us_text">Contact Us</string>
+    <string name="settings_dangerous_area_title">Dangerous Area</string>
+    <string name="settings_button_delete_account_text">Delete Account</string>
+
 </resources>
