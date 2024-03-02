@@ -5,7 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.LearnDigitalSkills" parent="Base.Theme.LearnDigitalSkills" />
+    <style name="Theme.LearnDigitalSkills" parent="Base.Theme.LearnDigitalSkills">
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
     
     <style name="Button.Black" parent="Theme.AppCompat">
         <item name="android:backgroundTint">@color/black</item>
