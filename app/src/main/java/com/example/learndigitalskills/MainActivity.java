@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Sets up listeners for button clicks
         loginButton.setOnClickListener(v -> {
-            openRegisterPage();
+            openLoginPage();
         });
 
         registerButton.setOnClickListener(v -> {
-            openLoginPage();
+            openRegisterPage();
         });
     }
 
