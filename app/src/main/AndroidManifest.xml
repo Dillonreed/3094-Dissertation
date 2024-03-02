@@ -13,7 +13,7 @@
         android:theme="@style/Theme.LearnDigitalSkills"
         tools:targetApi="31">
         <activity
-            android:name=".login_page"
+            android:name=".ui.loginPage"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".register_page"
+            android:name=".ui.registerPage"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
     </application>
