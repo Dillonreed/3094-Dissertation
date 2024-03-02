@@ -50,14 +50,14 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <Button
-            android:id="@+id/register_button"
+            android:id="@+id/welcome_button_register"
             style="@style/Button.Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/welcome_button_register_text" />
 
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/welcome_button_login"
             style="@style/Button.Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
