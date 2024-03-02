@@ -20,4 +20,8 @@
     <string name="login_username_text">Username</string>
     <string name="login_password_text">Password</string>
     <string name="login_button_login_text">Login</string>
+
+    <string name="menu_home_text">Home</string>
+    <string name="menu_articles_text">Articles</string>
+    <string name="menu_settings_text">Settings</string>
 </resources>
