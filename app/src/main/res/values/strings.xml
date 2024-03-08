@@ -25,6 +25,19 @@
     <string name="menu_articles_text">Articles</string>
     <string name="menu_settings_text">Settings</string>
 
+    <string name="home_title">Home</string>
+    <string name="home_progress_title_text">Progress</string>
+    <string name="home_total_articles_title_text">Articles\nCompleted :</string>
+    <string name="home_total_articles_value">0/0</string>
+    <string name="home_recommended_article_title_text">Recommended Article</string>
+    <string name="home_recommended_article_description_text">Based on your progression through
+    the articles, we recommend that you take a look at the following article next : </string>
+    <string name="home_about_us_title_text">About Us</string>
+    <string name="home_about_us_description_text">This application aims to empower you, the user,
+    to gain confidence and competence with using digital tools and systems.\n\nWe have made articles
+    to help guide you in using some of these tools and systems to assist you on your journey to
+    digital empowerment.</string>
+
     <string name="article_item_title_text">Title</string>
     <string name="article_item_topic_text">Topic</string>
     <string name="article_item_short_description_text">Short Description</string>
