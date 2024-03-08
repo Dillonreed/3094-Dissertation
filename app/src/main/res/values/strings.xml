@@ -25,6 +25,11 @@
     <string name="menu_articles_text">Articles</string>
     <string name="menu_settings_text">Settings</string>
 
+    <string name="article_item_title_text">Title</string>
+    <string name="article_item_topic_text">Topic</string>
+    <string name="article_item_short_description_text">Short Description</string>
+    <string name="article_item_checkBox_text">Completed</string>
+
     <string name="settings_title">Settings</string>
     <string name="settings_account_title">Account</string>
     <string name="settings_button_notifications_text">Notifications</string>
