@@ -16,6 +16,16 @@
     <string name="register_checkbox_button_terms_and_conditions_text">I agree to the above Terms and Conditions</string>
     <string name="register_button_create_account_text">Create Account</string>
 
+    <string name="terms_and_conditions_description">
+        Placeholder terms and conditions\n
+        Placeholder terms and conditions\n
+        Placeholder terms and conditions\n
+        Placeholder terms and conditions\n
+        Placeholder terms and conditions\n
+        Placeholder terms and conditions\n
+        Placeholder terms and conditions
+    </string>
+
     <string name="login_title">Login</string>
     <string name="login_username_text">Username</string>
     <string name="login_password_text">Password</string>
