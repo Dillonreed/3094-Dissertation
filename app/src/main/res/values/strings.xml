@@ -43,6 +43,10 @@
     <string name="article_item_short_description_text">Short Description</string>
     <string name="article_item_checkBox_text">Completed</string>
 
+    <string name="articles_title">Articles</string>
+    <string name="articles_search_bar_text">Search Articles</string>
+    <string name="articles_filter_text">Filter</string>
+
     <string name="settings_title">Settings</string>
     <string name="settings_account_title">Account</string>
     <string name="settings_button_notifications_text">Notifications</string>
