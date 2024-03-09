@@ -68,4 +68,12 @@
     <string name="settings_dangerous_area_title">Dangerous Area</string>
     <string name="settings_button_delete_account_text">Delete Account</string>
 
+    <string name="change_password_title_text">Change Password</string>
+    <string name="change_password_description_text">To change your password, first you will need
+    to enter your current password. Subsequently, you will enter the new password twice.</string>
+    <string name="change_password_old_password_hint">Old Password</string>
+    <string name="change_password_new_password_hint">New Password</string>
+    <string name="change_password_new_password_confirm_hint">Confirm New Password</string>
+    <string name="change_password_button_change_password_text">Change Password</string>
+
 </resources>
