@@ -1,12 +1,16 @@
 package com.example.learndigitalskills.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.learndigitalskills.R;
 
@@ -16,6 +20,8 @@ import com.example.learndigitalskills.R;
  * create an instance of this fragment.
  */
 public class settingsFragment extends Fragment {
+
+    Button changePasswordButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +68,19 @@ public class settingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.settings_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Bind UI Elements
+        changePasswordButton = view.findViewById(R.id.settings_button_change_password);
+
+        // Setup listeners for buttons
+        changePasswordButton.setOnClickListener(v -> {
+            Intent intent = changePassword.getIntent(getActivity());
+            startActivity(intent);
+        });
     }
 }
