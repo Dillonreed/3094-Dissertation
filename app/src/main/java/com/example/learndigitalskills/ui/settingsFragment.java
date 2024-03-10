@@ -21,7 +21,7 @@ import com.example.learndigitalskills.R;
  */
 public class settingsFragment extends Fragment {
 
-    Button changePasswordButton;
+    Button changePasswordButton, helpButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,10 +76,16 @@ public class settingsFragment extends Fragment {
 
         // Bind UI Elements
         changePasswordButton = view.findViewById(R.id.settings_button_change_password);
+        helpButton = view.findViewById(R.id.settings_button_help);
 
         // Setup listeners for buttons
         changePasswordButton.setOnClickListener(v -> {
             Intent intent = changePassword.getIntent(getActivity());
+            startActivity(intent);
+        });
+
+        helpButton.setOnClickListener(v -> {
+            Intent intent = helpPage.getIntent(getActivity());
             startActivity(intent);
         });
     }
