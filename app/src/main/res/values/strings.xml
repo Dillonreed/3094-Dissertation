@@ -96,4 +96,7 @@
     deleting your account. Finally you are also able to find contact information should you wish to
     provide feedback on anything within application.</string>
 
+    <string name="contact_us_description">If you would like to reach out to us or provide some
+    feedback, you can contact us on the following email : \n\n EMAIL@EMAIL.COM</string>
+
 </resources>
