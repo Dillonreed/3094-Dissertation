@@ -99,4 +99,9 @@
     <string name="contact_us_description">If you would like to reach out to us or provide some
     feedback, you can contact us on the following email : \n\n EMAIL@EMAIL.COM</string>
 
+    <string name="delete_account_description_text">Are you <b>sure</b> you want to delete your
+        account? Your data will permanently be deleted. \n\nPlease enter your current password to
+        delete your account.</string>
+    <string name="delete_account_password_hint">Password</string>
+
 </resources>
