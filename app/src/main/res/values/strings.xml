@@ -76,4 +76,24 @@
     <string name="change_password_new_password_confirm_hint">Confirm New Password</string>
     <string name="change_password_button_change_password_text">Change Password</string>
 
+    <string name="help_title_text">Help</string>
+    <string name="help_description_text">You can use this page to gain more information about
+    what you are able to do on each of the pages within this application.</string>
+    <string name="help_home_title_text">Home</string>
+    <string name="help_home_description_text">Here on the home screen, you are able to review
+    your progress through the articles we have created, you will also be recommended a particular
+    article to help guide you in your journey. Finally, you can learn about why this application was
+    made.</string>
+    <string name="help_articles_title_text">Articles</string>
+    <string name="help_articles_description_text">Here on the articles screen, you are able to
+    search for different articles depending on your particular needs, you can also mark any of them
+    as complete which will aid you in tracking your progress. Finally, you can filter the list
+    using various metrics to focus on particular articles.</string>
+    <string name="help_settings_title_text">Settings</string>
+    <string name="help_settings_description_text">Here on the settings screen, you are able to
+    perform actions related to your account like; modifying the notification settings for the
+    application, changing your password for the application, logging out of the application or
+    deleting your account. Finally you are also able to find contact information should you wish to
+    provide feedback on anything within application.</string>
+
 </resources>
