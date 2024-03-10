@@ -1,10 +1,12 @@
 package com.example.learndigitalskills.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,7 +23,7 @@ import com.example.learndigitalskills.R;
  */
 public class settingsFragment extends Fragment {
 
-    Button changePasswordButton, helpButton;
+    Button changePasswordButton, helpButton, contactUsButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,6 +79,7 @@ public class settingsFragment extends Fragment {
         // Bind UI Elements
         changePasswordButton = view.findViewById(R.id.settings_button_change_password);
         helpButton = view.findViewById(R.id.settings_button_help);
+        contactUsButton = view.findViewById(R.id.settings_button_contact_us);
 
         // Setup listeners for buttons
         changePasswordButton.setOnClickListener(v -> {
@@ -87,6 +90,36 @@ public class settingsFragment extends Fragment {
         helpButton.setOnClickListener(v -> {
             Intent intent = helpPage.getIntent(getActivity());
             startActivity(intent);
+        });
+
+        contactUsButton.setOnClickListener(v -> {
+            // Create a layout inflator to use to create the dialogue box
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+
+            // Inflate the layout file
+            View contactUsDialogueView = layoutInflater.inflate(R.layout.contact_us_dialogue, null);
+
+            // Assigns the view to the dialogue
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            builder.setView(contactUsDialogueView);
+            builder.setTitle("Contact Us");
+
+            // Setting up buttons for the dialogue
+            builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            // Creates and shows the dialogue
+            AlertDialog termsAndConditionsDialogue = builder.create();
+            termsAndConditionsDialogue.show();
+
+            // Sets the colour of the button to black
+            termsAndConditionsDialogue.getButton(termsAndConditionsDialogue.BUTTON_NEUTRAL)
+                    .setTextColor(getResources().getColor(R.color.black, null));
         });
     }
 }
