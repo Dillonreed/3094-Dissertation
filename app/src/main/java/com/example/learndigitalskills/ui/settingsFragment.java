@@ -23,7 +23,7 @@ import com.example.learndigitalskills.R;
  */
 public class settingsFragment extends Fragment {
 
-    Button changePasswordButton, helpButton, contactUsButton;
+    Button changePasswordButton, helpButton, contactUsButton, deleteAccountButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,6 +80,7 @@ public class settingsFragment extends Fragment {
         changePasswordButton = view.findViewById(R.id.settings_button_change_password);
         helpButton = view.findViewById(R.id.settings_button_help);
         contactUsButton = view.findViewById(R.id.settings_button_contact_us);
+        deleteAccountButton = view.findViewById(R.id.settings_button_delete_account);
 
         // Setup listeners for buttons
         changePasswordButton.setOnClickListener(v -> {
@@ -118,6 +119,46 @@ public class settingsFragment extends Fragment {
             termsAndConditionsDialogue.show();
 
             // Sets the colour of the button to black
+            termsAndConditionsDialogue.getButton(termsAndConditionsDialogue.BUTTON_NEUTRAL)
+                    .setTextColor(getResources().getColor(R.color.black, null));
+        });
+
+        deleteAccountButton.setOnClickListener(v -> {
+            // Create a layout inflator to use to create the dialogue box
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+
+            // Inflate the layout file
+            View deleteAccountDialogueView = layoutInflater.inflate(R.layout.delete_account_dialogue, null);
+
+            // Assigns the view to the dialogue
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            builder.setView(deleteAccountDialogueView);
+            builder.setTitle("Delete Account");
+
+            // Setting up buttons for the dialogue
+            builder.setPositiveButton("Delete Account", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+
+            builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            // Creates and shows the dialogue
+            AlertDialog termsAndConditionsDialogue = builder.create();
+            termsAndConditionsDialogue.show();
+
+            // Sets the colour of the buttons to black
+            termsAndConditionsDialogue.getButton(termsAndConditionsDialogue.BUTTON_POSITIVE)
+                    .setTextColor(getResources().getColor(R.color.black, null));
+
             termsAndConditionsDialogue.getButton(termsAndConditionsDialogue.BUTTON_NEUTRAL)
                     .setTextColor(getResources().getColor(R.color.black, null));
         });
