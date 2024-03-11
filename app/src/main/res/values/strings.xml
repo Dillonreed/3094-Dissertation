@@ -58,6 +58,15 @@
     <string name="articles_filter_text">Filter</string>
     <string name="articles_clear_filters_text">Clear</string>
 
+    <string name="articles_filter_topics_title_text">Topics</string>
+    <string name="articles_filter_checkBox_handling_information_and_content_text">Handling Information
+    and Content</string>
+    <string name="articles_filter_checkBox_communicating_text">Communicating</string>
+    <string name="articles_filter_checkBox_being_safe_and_legal_online_text">Being Safe and Legal
+    Online</string>
+    <string name="articles_filter_checkBox_problem_solving_text">Problem Solving</string>
+    <string name="articles_filter_checkBox_transacting_text">Transacting</string>
+
     <string name="settings_title">Settings</string>
     <string name="settings_account_title">Account</string>
     <string name="settings_button_notifications_text">Notifications</string>

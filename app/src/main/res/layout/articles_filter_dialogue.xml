@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grey_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/articles_filter_topics_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/articles_filter_topics_title_text"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/articles_filter_checkBox_handling_information_and_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/articles_filter_checkBox_handling_information_and_content_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/articles_filter_topics_title" />
+
+        <CheckBox
+            android:id="@+id/articles_filter_checkBox_communicating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/articles_filter_checkBox_communicating_text"
+            app:layout_constraintStart_toStartOf="@id/articles_filter_checkBox_handling_information_and_content"
+            app:layout_constraintTop_toBottomOf="@id/articles_filter_checkBox_handling_information_and_content" />
+
+        <CheckBox
+            android:id="@+id/articles_filter_checkBox_being_safe_and_legal_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/articles_filter_checkBox_being_safe_and_legal_online_text"
+            app:layout_constraintStart_toStartOf="@id/articles_filter_checkBox_communicating"
+            app:layout_constraintTop_toBottomOf="@id/articles_filter_checkBox_communicating" />
+
+        <CheckBox
+            android:id="@+id/articles_filter_checkBox_problem_solving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/articles_filter_checkBox_problem_solving_text"
+            app:layout_constraintStart_toStartOf="@id/articles_filter_checkBox_being_safe_and_legal_online"
+            app:layout_constraintTop_toBottomOf="@id/articles_filter_checkBox_being_safe_and_legal_online" />
+
+        <CheckBox
+            android:id="@+id/articles_filter_checkBox_transacting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/articles_filter_checkBox_transacting_text"
+            app:layout_constraintStart_toStartOf="@id/articles_filter_checkBox_problem_solving"
+            app:layout_constraintTop_toBottomOf="@id/articles_filter_checkBox_problem_solving" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
