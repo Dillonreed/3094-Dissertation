@@ -50,10 +50,6 @@ public class registerPage extends AppCompatActivity {
             // Creates and shows the dialogue
             AlertDialog termsAndConditionsDialogue = builder.create();
             termsAndConditionsDialogue.show();
-
-            // Sets the colour of the button to black
-            termsAndConditionsDialogue.getButton(termsAndConditionsDialogue.BUTTON_NEUTRAL)
-                    .setTextColor(getResources().getColor(R.color.black, null));
         });
     }
 
