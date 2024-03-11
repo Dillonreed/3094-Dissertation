@@ -56,6 +56,7 @@
     <string name="articles_title">Articles</string>
     <string name="articles_search_bar_text">Search Articles</string>
     <string name="articles_filter_text">Filter</string>
+    <string name="articles_clear_filters_text">Clear</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_account_title">Account</string>
