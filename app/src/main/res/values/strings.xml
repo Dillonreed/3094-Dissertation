@@ -53,6 +53,21 @@
     <string name="article_item_short_description_text">Short Description</string>
     <string name="article_item_checkBox_text">Completed</string>
 
+    <string name="article_title_text">Placeholder Article Title</string>
+    <string name="article_video_title_text">Demonstration Video</string>
+    <string name="article_content_title_text">Content</string>
+    <string name="article_content_text">
+        Placeholder Content\n
+        Placeholder Content\n
+        Placeholder Content\n
+        Placeholder Content\n
+        Placeholder Content\n
+        Placeholder Content\n
+        Placeholder Content\n
+        Placeholder Content
+    </string>
+    <string name="article_button_complete_text">Complete</string>
+
     <string name="articles_title">Articles</string>
     <string name="articles_search_bar_text">Search Articles</string>
     <string name="articles_filter_text">Filter</string>
