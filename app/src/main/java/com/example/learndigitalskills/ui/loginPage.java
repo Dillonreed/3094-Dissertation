@@ -22,7 +22,7 @@ public class loginPage extends AppCompatActivity {
         setContentView(R.layout.login_page);
 
         // Setup App Bar
-        loginToolbar = findViewById(R.id.my_toolbar);
+        loginToolbar = findViewById(R.id.login_toolbar);
         loginToolbar.setTitleTextColor(getResources().getColor(R.color.white, null));
         setSupportActionBar(loginToolbar);
 
