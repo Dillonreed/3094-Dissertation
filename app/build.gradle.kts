@@ -34,6 +34,7 @@ dependencies {
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
 
     // Default
     implementation("androidx.appcompat:appcompat:1.6.1")
