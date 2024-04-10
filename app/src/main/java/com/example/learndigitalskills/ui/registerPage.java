@@ -1,5 +1,6 @@
 package com.example.learndigitalskills.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +16,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.learndigitalskills.R;
 
+import com.example.learndigitalskills.db.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class registerPage extends AppCompatActivity {
@@ -104,12 +114,21 @@ public class registerPage extends AppCompatActivity {
     }
 
     private boolean checkFields(){
+        // Ensure password field is filled
         if (TextUtils.isEmpty(editTextPassword.getText().toString())) {
             editTextPassword.setError("Field empty");
             editTextPassword.requestFocus();
             return false;
         }
 
+        // Ensure password is atleast 8 characters to meet Firebase requirements
+        if (editTextPassword.getText().toString().length() < 8) {
+            editTextPassword.setError("Password must be atleast 8 characters");
+            editTextPassword.requestFocus();
+            return false;
+        }
+
+        // Ensure confirm password field is filled, and that it matches the password field
         if (TextUtils.isEmpty(editTextConfirmPassword.getText().toString())) {
             editTextConfirmPassword.setError("Field empty");
             editTextConfirmPassword.requestFocus();
@@ -120,6 +139,7 @@ public class registerPage extends AppCompatActivity {
             return false;
         }
 
+        // Ensures that the terms and conditions check box is checked
         if (!checkBoxTermsAndConditions.isChecked()) {
             checkBoxTermsAndConditions.setError("Terms and Conditions not agreed to");
             checkBoxTermsAndConditions.requestFocus();
@@ -130,6 +150,7 @@ public class registerPage extends AppCompatActivity {
     }
 
     private void generateUsername() {
+        // Generate random username/email
         String randomCharacters = UUID.randomUUID().toString().substring(0, 5);
         String generatedUsername = "User-" + randomCharacters;
         String generatedEmail = generatedUsername + "@learndigitalskills.com";
@@ -149,7 +170,53 @@ public class registerPage extends AppCompatActivity {
     }
 
     private void registerUser() {
-        // To Add
+        // Retrieve generated username and provided password
+        String generatedUsername = editTextGeneratedUsername.getText().toString();
+        String generatedEmail = generatedUsername + "@learndigitalskills.com";
+        String password = editTextPassword.getText().toString();
+
+        // Creates account with Firebase with generated/provided information
+        mAuth.createUserWithEmailAndPassword(generatedEmail, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Toast.makeText(registerPage.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+
+                        // Create User object
+                        User user = new User();
+                        user.setUserId(mAuth.getUid());
+                        user.setUsername(generatedUsername);
+                        user.setArticlesCompleted(new ArrayList<Integer>());
+
+                        // Instantiate database reference to users
+                        DocumentReference document = FirebaseFirestore.getInstance().document("users/"+user.getUsername());
+
+                        // Add data to database
+                        document.set(user)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        // User added to database
+                                        // Move user to base activity
+                                        Intent intent = basePage.getIntent(registerPage.this);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Error adding user to database
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(registerPage.this, "Registration Failed, Please Try Again", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     public static Intent getIntent(Context context){
