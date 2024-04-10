@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.learndigitalskills.MainActivity;
 import com.example.learndigitalskills.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +25,9 @@ import com.example.learndigitalskills.R;
  */
 public class settingsFragment extends Fragment {
 
-    Button changePasswordButton, helpButton, contactUsButton, deleteAccountButton;
+    private FirebaseAuth mAuth;
+
+    Button buttonChangePassword, buttonLogOut, buttonHelp, buttonContactUs, buttonDeleteAccount;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,23 +81,28 @@ public class settingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Bind UI Elements
-        changePasswordButton = view.findViewById(R.id.settings_button_change_password);
-        helpButton = view.findViewById(R.id.settings_button_help);
-        contactUsButton = view.findViewById(R.id.settings_button_contact_us);
-        deleteAccountButton = view.findViewById(R.id.settings_button_delete_account);
+        buttonChangePassword = view.findViewById(R.id.settings_button_change_password);
+        buttonLogOut = view.findViewById(R.id.settings_button_log_out);
+        buttonHelp = view.findViewById(R.id.settings_button_help);
+        buttonContactUs = view.findViewById(R.id.settings_button_contact_us);
+        buttonDeleteAccount = view.findViewById(R.id.settings_button_delete_account);
 
         // Setup listeners for buttons
-        changePasswordButton.setOnClickListener(v -> {
+        buttonChangePassword.setOnClickListener(v -> {
             Intent intent = changePassword.getIntent(getActivity());
             startActivity(intent);
         });
 
-        helpButton.setOnClickListener(v -> {
+        buttonLogOut.setOnClickListener(v -> {
+            logoutUser();
+        });
+
+        buttonHelp.setOnClickListener(v -> {
             Intent intent = helpPage.getIntent(getActivity());
             startActivity(intent);
         });
 
-        contactUsButton.setOnClickListener(v -> {
+        buttonContactUs.setOnClickListener(v -> {
             // Create a layout inflator to use to create the dialogue box
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 
@@ -119,7 +128,7 @@ public class settingsFragment extends Fragment {
             termsAndConditionsDialogue.show();
         });
 
-        deleteAccountButton.setOnClickListener(v -> {
+        buttonDeleteAccount.setOnClickListener(v -> {
             // Create a layout inflator to use to create the dialogue box
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 
@@ -151,5 +160,15 @@ public class settingsFragment extends Fragment {
             AlertDialog termsAndConditionsDialogue = builder.create();
             termsAndConditionsDialogue.show();
         });
+    }
+
+    private void logoutUser() {
+        // Log user out
+        FirebaseAuth.getInstance().signOut();
+
+        // Redirect to welcome screen when logging out
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
