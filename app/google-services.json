@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "992072521689",
+    "project_id": "learndigitalskills-fce61",
+    "storage_bucket": "learndigitalskills-fce61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992072521689:android:4a8e7134d6905358722bc8",
+        "android_client_info": {
+          "package_name": "com.example.learndigitalskills"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs5As2My-o73eRfrthhirvA-a2b9nDaH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
