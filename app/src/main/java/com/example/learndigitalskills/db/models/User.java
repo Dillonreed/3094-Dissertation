@@ -1,16 +1,16 @@
 package com.example.learndigitalskills.db.models;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class User {
     private String userId;
     private String username;
-    private List<Integer> articlesCompleted;
+    private ArrayList<Integer> articlesCompleted = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String userId, String username, List<Integer> articlesCompleted) {
+    public User(String userId, String username, ArrayList<Integer> articlesCompleted) {
         this.userId = userId;
         this.username = username;
         this.articlesCompleted = articlesCompleted;
@@ -32,11 +32,11 @@ public class User {
         this.username = username;
     }
 
-    public List<Integer> getArticlesCompleted() {
+    public ArrayList<Integer> getArticlesCompleted() {
         return articlesCompleted;
     }
 
-    public void setArticlesCompleted(List<Integer> articlesCompleted) {
+    public void setArticlesCompleted(ArrayList<Integer> articlesCompleted) {
         this.articlesCompleted = articlesCompleted;
     }
 
