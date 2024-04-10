@@ -9,21 +9,35 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import com.example.learndigitalskills.R;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.UUID;
+
 public class registerPage extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+
     Toolbar registerToolbar;
-    Button termsAndConditionsButton;
+    EditText editTextGeneratedUsername, editTextPassword, editTextConfirmPassword;
+    CheckBox checkBoxTermsAndConditions;
+    Button buttonCreateAccount, buttonTermsAndConditions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
+
+        // Initialize FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
 
         // Setup App Bar
         registerToolbar = findViewById(R.id.register_toolbar);
@@ -44,10 +58,15 @@ public class registerPage extends AppCompatActivity {
         }
 
         // Bind UI elements
-        termsAndConditionsButton = findViewById(R.id.register_button_terms_and_conditions);
+        editTextGeneratedUsername = findViewById(R.id.register_generated_username);
+        editTextPassword = findViewById(R.id.register_editText_password);
+        editTextConfirmPassword = findViewById(R.id.register_editText_confirm_password);
+        buttonTermsAndConditions = findViewById(R.id.register_button_terms_and_conditions);
+        checkBoxTermsAndConditions = findViewById(R.id.register_checkbox_button_terms_and_conditions);
+        buttonCreateAccount = findViewById(R.id.register_button_create_account);
 
         // Setup listeners for buttons
-        termsAndConditionsButton.setOnClickListener(v -> {
+        buttonTermsAndConditions.setOnClickListener(v -> {
             // Create a layout inflator to use to create the dialogue box
             LayoutInflater layoutInflater = LayoutInflater.from(this);
 
@@ -72,6 +91,65 @@ public class registerPage extends AppCompatActivity {
             AlertDialog termsAndConditionsDialogue = builder.create();
             termsAndConditionsDialogue.show();
         });
+
+        buttonCreateAccount.setOnClickListener(v -> {
+            // If all fields are filled, and passwords match then register the user
+            if (checkFields()) {
+                registerUser();
+            }
+        });
+
+        // Generate Random Username
+        generateUsername();
+    }
+
+    private boolean checkFields(){
+        if (TextUtils.isEmpty(editTextPassword.getText().toString())) {
+            editTextPassword.setError("Field empty");
+            editTextPassword.requestFocus();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(editTextConfirmPassword.getText().toString())) {
+            editTextConfirmPassword.setError("Field empty");
+            editTextConfirmPassword.requestFocus();
+            return false;
+        } else if (!TextUtils.equals(editTextPassword.getText().toString(), editTextConfirmPassword.getText().toString())) {
+            editTextConfirmPassword.setError("Passwords don't match");
+            editTextConfirmPassword.requestFocus();
+            return false;
+        }
+
+        if (!checkBoxTermsAndConditions.isChecked()) {
+            checkBoxTermsAndConditions.setError("Terms and Conditions not agreed to");
+            checkBoxTermsAndConditions.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void generateUsername() {
+        String randomCharacters = UUID.randomUUID().toString().substring(0, 5);
+        String generatedUsername = "User-" + randomCharacters;
+        String generatedEmail = generatedUsername + "@learndigitalskills.com";
+
+        // Checks if generated username is already present in the system
+        mAuth.fetchSignInMethodsForEmail(generatedEmail).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().getSignInMethods().isEmpty()) {
+                    // Username is valid, set the generated username
+                    editTextGeneratedUsername.setText(generatedUsername);
+                } else {
+                    // Username is already in use, generate a new one recursively
+                    generateUsername();
+                }
+            }
+        });
+    }
+
+    private void registerUser() {
+        // To Add
     }
 
     public static Intent getIntent(Context context){
