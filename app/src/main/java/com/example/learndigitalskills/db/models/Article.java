@@ -1,6 +1,8 @@
 package com.example.learndigitalskills.db.models;
 
-public class Article {
+import java.io.Serializable;
+
+public class Article implements Serializable {
     private Integer articleId;
     private String title;
     private String topic;
