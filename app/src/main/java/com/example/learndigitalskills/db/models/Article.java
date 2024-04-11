@@ -8,6 +8,8 @@ public class Article {
     private String content;
     private String videoLink;
 
+    public Article() {}
+
     public Article(Integer articleId, String title, String topic, String shortDescription, String content, String videoLink) {
         this.articleId = articleId;
         this.title = title;
