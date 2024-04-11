@@ -3,13 +3,15 @@ package com.example.learndigitalskills.db.models;
 public class Article {
     private Integer articleId;
     private String title;
+    private String topic;
     private String shortDescription;
     private String content;
     private String videoLink;
 
-    public Article(Integer articleId, String title, String shortDescription, String content, String videoLink) {
+    public Article(Integer articleId, String title, String topic, String shortDescription, String content, String videoLink) {
         this.articleId = articleId;
         this.title = title;
+        this.topic = topic;
         this.shortDescription = shortDescription;
         this.content = content;
         this.videoLink = videoLink;
@@ -29,6 +31,14 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getShortDescription() {
