@@ -158,7 +158,6 @@ public class articlesFragment extends Fragment {
         listViewArticles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("ITEM", "CLICKED");
                 // Get article object of selected item
                 Article selectedArticle = (Article) listViewArticles.getItemAtPosition(position);
 
@@ -337,7 +336,6 @@ public class articlesFragment extends Fragment {
     }
 
     private void openArticlePage(Article selectedArticle) {
-        Log.e("Func", "HERE");
         Intent intent = new Intent(getContext(), articlePage.class);
         intent.putExtra("article", selectedArticle);
         startActivity(intent);
