@@ -52,7 +52,7 @@ public class articlesFragment extends Fragment {
     private ArrayList<String> filteredTopics = new ArrayList<>();
 
     SearchView searchViewSearchBar;
-    Button buttonFilter;
+    Button buttonFilter, buttonClearFilters;
     ListView listViewArticles;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -112,11 +112,16 @@ public class articlesFragment extends Fragment {
         // Bind UI elements
         searchViewSearchBar = view.findViewById(R.id.articles_searchView_search_bar);
         buttonFilter = view.findViewById(R.id.articles_button_filter);
+        buttonClearFilters = view.findViewById(R.id.articles_button_clear_filters);
         listViewArticles = view.findViewById(R.id.articles_listView_articles);
 
         // Setup listeners for buttons
         buttonFilter.setOnClickListener(v -> {
             filterDialogue();
+        });
+
+        buttonClearFilters.setOnClickListener(v -> {
+            clearFilters();
         });
 
         // Populate ListView
@@ -192,8 +197,7 @@ public class articlesFragment extends Fragment {
 
     private void filterDialogue() {
         // Clear currently selected filters on opening
-        filteredTopics.clear();
-        searchViewSearchBar.setQuery("", false);
+        clearFilters();
 
         // Create a layout inflator to use to create the dialogue box
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
@@ -264,6 +268,12 @@ public class articlesFragment extends Fragment {
         // Creates and shows the dialogue
         AlertDialog articlesFilterDialogue = builder.create();
         articlesFilterDialogue.show();
+    }
+
+    private void clearFilters() {
+        // Clear currently selected filters on opening
+        filteredTopics.clear();
+        searchViewSearchBar.setQuery("", false);
     }
 
     private void populateListView() {
