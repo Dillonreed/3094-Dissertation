@@ -1,5 +1,6 @@
 package com.example.learndigitalskills.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,10 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.learndigitalskills.R;
+import com.example.learndigitalskills.db.adapters.ArticlesListViewAdapter;
+import com.example.learndigitalskills.db.models.Article;
 import com.example.learndigitalskills.db.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link homeFragment#newInstance} factory method to
@@ -37,8 +45,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class homeFragment extends Fragment {
 
     private FirebaseUser currentUser;
+    private Integer recommendedArticleId = null;
 
     TextView textViewTotalArticlesCompleted;
+    ListView listViewRecommendedArticle;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -96,6 +106,19 @@ public class homeFragment extends Fragment {
 
         // Bind UI elements
         textViewTotalArticlesCompleted = view.findViewById(R.id.home_total_articles_value);
+        listViewRecommendedArticle = view.findViewById(R.id.home_listView_recommended_article);
+
+        // Setup listener for click on listView
+        listViewRecommendedArticle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get article object of selected item
+                Article selectedArticle = (Article) listViewRecommendedArticle.getItemAtPosition(position);
+
+                // Redirect user to article page of selected item
+                openArticlePage(selectedArticle);
+            }
+        });
     }
 
     @Override
@@ -131,6 +154,9 @@ public class homeFragment extends Fragment {
 
                                         // Update UI
                                         textViewTotalArticlesCompleted.setText(numberOfArticlesCompleted + "/" + totalNumberOfArticles);
+
+                                        // Find recommended article id
+                                        findRecommendedArticleId(user, totalNumberOfArticles);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -149,5 +175,61 @@ public class homeFragment extends Fragment {
                         Toast.makeText(getActivity(), "Data retrieval failed", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void findRecommendedArticleId(User user, Long totalNumberOfArticles) {
+        // Find ID for recommended article
+        for (int i = 0; i < totalNumberOfArticles; i++) {
+            if (!user.getArticlesCompleted().contains(i)) {
+                recommendedArticleId = i;
+            }
+        }
+
+        // If the user has completed all articles, just recommend article 1
+        if (recommendedArticleId == null) {
+            recommendedArticleId = 1;
+        }
+
+        // Retrieve articles from database
+        CollectionReference articles = FirebaseFirestore.getInstance().collection("articles");
+
+        articles.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // Data retrieval successful
+
+                        // Find recommended article in list
+                        // Map Articles to ArrayList of Articles
+                        ArrayList<Article> articlesToShow = new ArrayList<>();
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            Article article = document.toObject(Article.class);
+
+                            // Check if the article's id is the same as the recommended article
+                            if (Objects.equals(article.getArticleId(), recommendedArticleId)) {
+                                articlesToShow.add(article);
+
+                                // Create and setup ListViewAdapter
+                                ArticlesListViewAdapter adapter = new ArticlesListViewAdapter(getContext(), articlesToShow, user.getArticlesCompleted());
+                                listViewRecommendedArticle.setAdapter(adapter);
+
+                                return;
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Data retrieval unsuccessful
+                        Toast.makeText(getActivity(), "Data retrieval failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void openArticlePage(Article selectedArticle) {
+        Intent intent = new Intent(getContext(), articlePage.class);
+        intent.putExtra("article", selectedArticle);
+        startActivity(intent);
     }
 }
