@@ -10,14 +10,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.learndigitalskills.MainActivity;
 import com.example.learndigitalskills.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class settingsFragment extends Fragment {
 
-    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     Button buttonNotifications, buttonChangePassword, buttonLogOut, buttonHelp, buttonContactUs, buttonDeleteAccount;
 
@@ -81,6 +92,9 @@ public class settingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Initialize Firebase User
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         // Bind UI Elements
         buttonNotifications = view.findViewById(R.id.settings_button_notifications);
         buttonChangePassword = view.findViewById(R.id.settings_button_change_password);
@@ -111,62 +125,11 @@ public class settingsFragment extends Fragment {
         });
 
         buttonContactUs.setOnClickListener(v -> {
-            // Create a layout inflator to use to create the dialogue box
-            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-
-            // Inflate the layout file
-            View contactUsDialogueView = layoutInflater.inflate(R.layout.contact_us_dialogue, null);
-
-            // Assigns the view to the dialogue
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-            builder.setView(contactUsDialogueView);
-            builder.setTitle("Contact Us");
-
-            // Setting up buttons for the dialogue
-            builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            // Creates and shows the dialogue
-            AlertDialog termsAndConditionsDialogue = builder.create();
-            termsAndConditionsDialogue.show();
+            contactUsDialogue();
         });
 
         buttonDeleteAccount.setOnClickListener(v -> {
-            // Create a layout inflator to use to create the dialogue box
-            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-
-            // Inflate the layout file
-            View deleteAccountDialogueView = layoutInflater.inflate(R.layout.delete_account_dialogue, null);
-
-            // Assigns the view to the dialogue
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-            builder.setView(deleteAccountDialogueView);
-            builder.setTitle("Delete Account");
-
-            // Setting up buttons for the dialogue
-            builder.setPositiveButton("Delete Account", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-
-            builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            // Creates and shows the dialogue
-            AlertDialog termsAndConditionsDialogue = builder.create();
-            termsAndConditionsDialogue.show();
+            deleteAccountDialogue();
         });
     }
 
@@ -175,8 +138,162 @@ public class settingsFragment extends Fragment {
         FirebaseAuth.getInstance().signOut();
 
         // Redirect to welcome screen when logging out
+        openWelcomePage();
+    }
+
+    private void openWelcomePage() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    private void contactUsDialogue() {
+        // Create a layout inflator to use to create the dialogue box
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+
+        // Inflate the layout file
+        View contactUsDialogueView = layoutInflater.inflate(R.layout.contact_us_dialogue, null);
+
+        // Assigns the view to the dialogue
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setView(contactUsDialogueView);
+        builder.setTitle("Contact Us");
+
+        // Setting up buttons for the dialogue
+        builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Creates and shows the dialogue
+        AlertDialog termsAndConditionsDialogue = builder.create();
+        termsAndConditionsDialogue.show();
+    }
+
+    private void deleteAccountDialogue() {
+        // Create a layout inflator to use to create the dialogue box
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+
+        // Inflate the layout file
+        View deleteAccountDialogueView = layoutInflater.inflate(R.layout.delete_account_dialogue, null);
+
+        // Assigns the view to the dialogue
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setView(deleteAccountDialogueView);
+        builder.setTitle("Delete Account");
+
+        // Setting up buttons for the dialogue
+        builder.setPositiveButton("Delete Account", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // This onClick listener will be overridden later to prevent automatic dismissal
+            }
+        });
+
+        builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Creates the dialogue
+        AlertDialog deleteAccountDialogue = builder.create();
+
+        // Set a custom onClick listener for the positive button
+        deleteAccountDialogue.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button positiveButton = ((AlertDialog) dialogInterface).getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Bind UI element from dialogue
+                        EditText editTextPassword = deleteAccountDialogueView.findViewById(R.id.delete_account_editText_password);
+
+                        // Check password field is filled
+                        if (TextUtils.isEmpty(editTextPassword.getText().toString())) {
+                            editTextPassword.setError("Field is empty");
+                            editTextPassword.requestFocus();
+                        } else {
+                            deleteAccount(editTextPassword);
+                        }
+                    }
+                });
+            }
+        });
+
+        // Show the dialogue
+        deleteAccountDialogue.show();
+    }
+
+
+
+    private void deleteAccount(EditText editTextPassword) {
+        // Obtain credential for user using their email and old password
+        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), editTextPassword.getText().toString());
+
+        // Reauthenticate the user to be able to delete account
+        user.reauthenticate(credential)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        // User is reauthenticated successfully
+                        // Delete the user's information from the database
+
+                        // Extract username from email, and capitalize the first letter
+                        String username = user.getEmail().substring(0, user.getEmail().indexOf("@"));
+                        username = username.substring(0, 1).toUpperCase() + username.substring(1);
+
+                        // Instantiate database reference to users
+                        DocumentReference document = FirebaseFirestore.getInstance().document("/users/" + username);
+
+                        document.delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        // User data deleted
+                                        // Delete the user's information from the authentication service
+                                        user.delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        // User deleted from authentication service
+                                                        Toast.makeText(getActivity(), "User Deleted Successfully", Toast.LENGTH_SHORT).show();
+
+                                                        // Redirect user back to welcome page
+                                                        openWelcomePage();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        // Error Deleting User from Authentication Service
+                                                        Toast.makeText(getActivity(), "An error has occurred, please try again", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Error Deleting information from database
+                                        Toast.makeText(getActivity(), "An error has occurred, please try again", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // User failed to authenticate
+                        editTextPassword.setError("Current password doesn't match our records, please try again.");
+                        editTextPassword.requestFocus();
+                    }
+                });
     }
 }
