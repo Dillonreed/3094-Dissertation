@@ -80,36 +80,40 @@ public class articlesFragment extends Fragment {
 
         // Setup listeners for buttons
         filterButton.setOnClickListener(v -> {
-            // Create a layout inflator to use to create the dialogue box
-            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-
-            // Inflate the layout file
-            View filterDialogueView = layoutInflater.inflate(R.layout.articles_filter_dialogue, null);
-
-            // Assigns the view to the dialogue
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-            builder.setView(filterDialogueView);
-            builder.setTitle("Filter");
-
-            // Setting up buttons for the dialogue
-            builder.setPositiveButton("Apply Filters", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-
-            builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            // Creates and shows the dialogue
-            AlertDialog articlesFilterDialogue = builder.create();
-            articlesFilterDialogue.show();
+            filterDialogue();
         });
+    }
+
+    private void filterDialogue() {
+        // Create a layout inflator to use to create the dialogue box
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+
+        // Inflate the layout file
+        View filterDialogueView = layoutInflater.inflate(R.layout.articles_filter_dialogue, null);
+
+        // Assigns the view to the dialogue
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setView(filterDialogueView);
+        builder.setTitle("Filter");
+
+        // Setting up buttons for the dialogue
+        builder.setPositiveButton("Apply Filters", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Creates and shows the dialogue
+        AlertDialog articlesFilterDialogue = builder.create();
+        articlesFilterDialogue.show();
     }
 }
