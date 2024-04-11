@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -46,7 +47,9 @@ public class articlesFragment extends Fragment {
     private FirebaseUser currentUser;
 
     private ArrayList<Article> articlesList = new ArrayList<>();
+    private ArrayList<Article> shownArticlesList = new ArrayList<>();
     private ArrayList<Integer> completedArticlesList = new ArrayList<>();
+    private ArrayList<String> filteredTopics = new ArrayList<>();
 
     SearchView searchViewSearchBar;
     Button buttonFilter;
@@ -133,15 +136,14 @@ public class articlesFragment extends Fragment {
                 // Create a list of applicable articles
                 ArrayList<Article> filteredArticles = new ArrayList<>();
 
-                for (Article article : articlesList) {
+                for (Article article : shownArticlesList) {
                     if (checkArticle(query, article)) {
                         filteredArticles.add(article);
                     }
                 }
 
-                // Update listView with filtered articles
-                ArticlesListViewAdapter adapter = new ArticlesListViewAdapter(getContext(), filteredArticles, completedArticlesList);
-                listViewArticles.setAdapter(adapter);
+                // Filter the list
+                filterList(filteredArticles);
 
                 return false;
             }
@@ -182,7 +184,17 @@ public class articlesFragment extends Fragment {
         return false;
     }
 
+    private void filterList(ArrayList<Article> filteredArticles) {
+        // Update listView with filtered articles
+        ArticlesListViewAdapter adapter = new ArticlesListViewAdapter(getContext(), filteredArticles, completedArticlesList);
+        listViewArticles.setAdapter(adapter);
+    }
+
     private void filterDialogue() {
+        // Clear currently selected filters on opening
+        filteredTopics.clear();
+        searchViewSearchBar.setQuery("", false);
+
         // Create a layout inflator to use to create the dialogue box
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 
@@ -199,7 +211,46 @@ public class articlesFragment extends Fragment {
         builder.setPositiveButton("Apply Filters", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // Bind UI elements
+                CheckBox checkBoxHandlingInformationAndContent = filterDialogueView.findViewById(R.id.articles_filter_checkBox_handling_information_and_content);
+                CheckBox checkBoxCommunicating = filterDialogueView.findViewById(R.id.articles_filter_checkBox_communicating);
+                CheckBox checkBoxBeingSafeAndLegalOnline = filterDialogueView.findViewById(R.id.articles_filter_checkBox_being_safe_and_legal_online);
+                CheckBox checkBoxProblemSolving = filterDialogueView.findViewById(R.id.articles_filter_checkBox_problem_solving);
+                CheckBox checkBoxTransacting = filterDialogueView.findViewById(R.id.articles_filter_checkBox_transacting);
 
+                // Update filtered topics
+                if (checkBoxHandlingInformationAndContent.isChecked()) {
+                    filteredTopics.add(checkBoxHandlingInformationAndContent.getText().toString());
+                }
+                if (checkBoxCommunicating.isChecked()) {
+                    filteredTopics.add(checkBoxCommunicating.getText().toString());
+                }
+                if (checkBoxBeingSafeAndLegalOnline.isChecked()) {
+                    filteredTopics.add(checkBoxBeingSafeAndLegalOnline.getText().toString());
+                }
+                if (checkBoxProblemSolving.isChecked()) {
+                    filteredTopics.add(checkBoxProblemSolving.getText().toString());
+                }
+                if (checkBoxTransacting.isChecked()) {
+                    filteredTopics.add(checkBoxTransacting.getText().toString());
+                }
+
+                // Generate new list of filtered articles
+                ArrayList<Article> filteredArticles = new ArrayList<>();
+
+                for (Article article : articlesList) {
+                    for (String topic : filteredTopics) {
+                        if (checkArticle(topic, article)) {
+                            filteredArticles.add(article);
+                        }
+                    }
+                }
+
+                // Filter List
+                filterList(filteredArticles);
+
+                // Update list of shown articles
+                shownArticlesList = filteredArticles;
             }
         });
 
@@ -253,6 +304,7 @@ public class articlesFragment extends Fragment {
                                         listViewArticles.setAdapter(adapter);
 
                                         articlesList = articlesToShow;
+                                        shownArticlesList = articlesList;
                                         completedArticlesList = user.getArticlesCompleted();
                                     }
                                 })
