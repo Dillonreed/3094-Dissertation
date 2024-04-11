@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.learndigitalskills.R;
@@ -44,6 +45,10 @@ public class articlesFragment extends Fragment {
 
     private FirebaseUser currentUser;
 
+    private ArrayList<Article> articlesList = new ArrayList<>();
+    private ArrayList<Integer> completedArticlesList = new ArrayList<>();
+
+    SearchView searchViewSearchBar;
     Button buttonFilter;
     ListView listViewArticles;
 
@@ -102,6 +107,7 @@ public class articlesFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Bind UI elements
+        searchViewSearchBar = view.findViewById(R.id.articles_searchView_search_bar);
         buttonFilter = view.findViewById(R.id.articles_button_filter);
         listViewArticles = view.findViewById(R.id.articles_listView_articles);
 
@@ -112,6 +118,34 @@ public class articlesFragment extends Fragment {
 
         // Populate ListView
         populateListView();
+
+        // Setup listener for search bar
+        searchViewSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // When a character is changed
+
+                // Create a list of applicable articles
+                ArrayList<Article> filteredArticles = new ArrayList<>();
+
+                for (Article article : articlesList) {
+                    if (checkArticle(query, article)) {
+                        filteredArticles.add(article);
+                    }
+                }
+
+                // Update listView with filtered articles
+                ArticlesListViewAdapter adapter = new ArticlesListViewAdapter(getContext(), filteredArticles, completedArticlesList);
+                listViewArticles.setAdapter(adapter);
+
+                return false;
+            }
+        });
 
         // Setup listener for click on listView
         listViewArticles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -125,6 +159,27 @@ public class articlesFragment extends Fragment {
                 openArticlePage(selectedArticle);
             }
         });
+    }
+
+    private boolean checkArticle(String query, Article article) {
+        // Check if query is contained within the title, content, topic or short description
+        if (article.getTitle().toLowerCase().contains(query.toLowerCase())) {
+            return true;
+        }
+
+        if (article.getTopic().toLowerCase().contains(query.toLowerCase())) {
+            return true;
+        }
+
+        if (article.getShortDescription().toLowerCase().contains(query.toLowerCase())) {
+            return true;
+        }
+
+        if (article.getContent().toLowerCase().contains(query.toLowerCase())) {
+            return true;
+        }
+
+        return false;
     }
 
     private void filterDialogue() {
@@ -186,16 +241,19 @@ public class articlesFragment extends Fragment {
                                         User user = documentSnapshot.toObject(User.class);
 
                                         // Map Articles to ArrayList of Articles
-                                        ArrayList<Article> articlesList = new ArrayList<>();
+                                        ArrayList<Article> articlesToShow = new ArrayList<>();
 
                                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                             Article article = document.toObject(Article.class);
-                                            articlesList.add(article);
+                                            articlesToShow.add(article);
                                         }
 
                                         // Create and setup ListViewAdapter
-                                        ArticlesListViewAdapter adapter = new ArticlesListViewAdapter(getContext(), articlesList, user.getArticlesCompleted());
+                                        ArticlesListViewAdapter adapter = new ArticlesListViewAdapter(getContext(), articlesToShow, user.getArticlesCompleted());
                                         listViewArticles.setAdapter(adapter);
+
+                                        articlesList = articlesToShow;
+                                        completedArticlesList = user.getArticlesCompleted();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
