@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class settingsFragment extends Fragment {
 
     private FirebaseAuth mAuth;
 
-    Button buttonChangePassword, buttonLogOut, buttonHelp, buttonContactUs, buttonDeleteAccount;
+    Button buttonNotifications, buttonChangePassword, buttonLogOut, buttonHelp, buttonContactUs, buttonDeleteAccount;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,6 +82,7 @@ public class settingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Bind UI Elements
+        buttonNotifications = view.findViewById(R.id.settings_button_notifications);
         buttonChangePassword = view.findViewById(R.id.settings_button_change_password);
         buttonLogOut = view.findViewById(R.id.settings_button_log_out);
         buttonHelp = view.findViewById(R.id.settings_button_help);
@@ -88,6 +90,12 @@ public class settingsFragment extends Fragment {
         buttonDeleteAccount = view.findViewById(R.id.settings_button_delete_account);
 
         // Setup listeners for buttons
+        buttonNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+            startActivity(intent);
+        });
+
         buttonChangePassword.setOnClickListener(v -> {
             Intent intent = changePassword.getIntent(getActivity());
             startActivity(intent);
