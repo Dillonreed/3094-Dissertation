@@ -2,6 +2,11 @@
     <string name="app_name">Learn Digital Skills</string>
     <string name="logo_alt_text">App Logo</string>
 
+    <string name="welcome_title_text">Welcome !</string>
+    <string name="welcome_description_text">
+        Are you ready to begin your digital literacy journey ? \n\nJoin us and unlock your full
+        potential !
+    </string>
     <string name="welcome_button_register_text">Create Account</string>
     <string name="welcome_button_login_text">Login</string>
 
