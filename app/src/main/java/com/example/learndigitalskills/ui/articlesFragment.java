@@ -273,6 +273,9 @@ public class articlesFragment extends Fragment {
         // Clear currently selected filters on opening
         filteredTopics.clear();
         searchViewSearchBar.setQuery("", false);
+
+        // Update the list with all the articles
+        filterList(articlesList);
     }
 
     private void populateListView() {
