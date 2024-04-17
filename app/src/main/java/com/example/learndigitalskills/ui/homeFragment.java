@@ -179,14 +179,17 @@ public class homeFragment extends Fragment {
 
     private void findRecommendedArticleId(User user, Long totalNumberOfArticles) {
         // Find ID for recommended article
-        for (int i = 0; i < totalNumberOfArticles; i++) {
+        for (int i = 1; i < totalNumberOfArticles; i++) {
             if (!user.getArticlesCompleted().contains(i)) {
                 recommendedArticleId = i;
+
+                // Break out of the loop once a recommended article is found
+                break;
             }
         }
 
-        // If the user has completed all articles, just recommend article 1
-        if (recommendedArticleId == null) {
+        // If the user has completed all articles, just recommend article 1 for the time being
+        if (user.getArticlesCompleted().contains(recommendedArticleId)) {
             recommendedArticleId = 1;
         }
 
