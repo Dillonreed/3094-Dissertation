@@ -11,16 +11,17 @@ import androidx.fragment.app.Fragment;
 
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.learndigitalskills.MainActivity;
 import com.example.learndigitalskills.R;
+import com.example.learndigitalskills.db.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
@@ -37,8 +39,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class settingsFragment extends Fragment {
 
-    private FirebaseUser user;
+    private FirebaseUser currentUser;
+    private User user;
 
+    TextView textViewAccountTitle;
     Button buttonNotifications, buttonChangePassword, buttonLogOut, buttonHelp, buttonContactUs, buttonDeleteAccount;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -93,9 +97,10 @@ public class settingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize Firebase User
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Bind UI Elements
+        textViewAccountTitle = view.findViewById(R.id.settings_account_title);
         buttonNotifications = view.findViewById(R.id.settings_button_notifications);
         buttonChangePassword = view.findViewById(R.id.settings_button_change_password);
         buttonLogOut = view.findViewById(R.id.settings_button_log_out);
@@ -131,6 +136,38 @@ public class settingsFragment extends Fragment {
         buttonDeleteAccount.setOnClickListener(v -> {
             deleteAccountDialogue();
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Get user object to retrieve username
+        // Extract username from email, and capitalize the first letter
+        String username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf("@"));
+        username = username.substring(0, 1).toUpperCase() + username.substring(1);
+
+        // Retrieve user information from database
+        DocumentReference document = FirebaseFirestore.getInstance().document("users/" + username);
+        document.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        // Data retrieval successful
+                        // Map data to user object
+                        user = documentSnapshot.toObject(User.class);
+
+                        // Update UI elements
+                        textViewAccountTitle.setText(user.getUsername() + "'s " + textViewAccountTitle.getText().toString());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Data retrieval unsuccessful
+                        Toast.makeText(getActivity(), "Data retrieval failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void logoutUser() {
@@ -235,10 +272,10 @@ public class settingsFragment extends Fragment {
 
     private void deleteAccount(EditText editTextPassword) {
         // Obtain credential for user using their email and old password
-        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), editTextPassword.getText().toString());
+        AuthCredential credential = EmailAuthProvider.getCredential(currentUser.getEmail(), editTextPassword.getText().toString());
 
         // Reauthenticate the user to be able to delete account
-        user.reauthenticate(credential)
+        currentUser.reauthenticate(credential)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -246,7 +283,7 @@ public class settingsFragment extends Fragment {
                         // Delete the user's information from the database
 
                         // Extract username from email, and capitalize the first letter
-                        String username = user.getEmail().substring(0, user.getEmail().indexOf("@"));
+                        String username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf("@"));
                         username = username.substring(0, 1).toUpperCase() + username.substring(1);
 
                         // Instantiate database reference to users
@@ -258,7 +295,7 @@ public class settingsFragment extends Fragment {
                                     public void onSuccess(Void unused) {
                                         // User data deleted
                                         // Delete the user's information from the authentication service
-                                        user.delete()
+                                        currentUser.delete()
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void unused) {
