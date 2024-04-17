@@ -189,7 +189,7 @@ public class homeFragment extends Fragment {
         }
 
         // If the user has completed all articles, just recommend article 1 for the time being
-        if (user.getArticlesCompleted().contains(recommendedArticleId)) {
+        if (user.getArticlesCompleted().contains(recommendedArticleId) || recommendedArticleId == null) {
             recommendedArticleId = 1;
         }
 
