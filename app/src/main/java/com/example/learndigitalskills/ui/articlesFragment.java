@@ -124,9 +124,6 @@ public class articlesFragment extends Fragment {
             clearFilters();
         });
 
-        // Populate ListView
-        populateListView();
-
         // Setup listener for search bar
         searchViewSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -165,6 +162,14 @@ public class articlesFragment extends Fragment {
                 openArticlePage(selectedArticle);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Populate the data for the list
+        populateListView();
     }
 
     private boolean checkArticle(String query, Article article) {
