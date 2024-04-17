@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class homeFragment extends Fragment {
     private Integer recommendedArticleId = null;
 
     TextView textViewTotalArticlesCompleted;
+    ProgressBar progressBar;
     ListView listViewRecommendedArticle;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -106,6 +108,7 @@ public class homeFragment extends Fragment {
 
         // Bind UI elements
         textViewTotalArticlesCompleted = view.findViewById(R.id.home_total_articles_value);
+        progressBar = view.findViewById(R.id.home_progress_bar);
         listViewRecommendedArticle = view.findViewById(R.id.home_listView_recommended_article);
 
         // Setup listener for click on listView
@@ -154,6 +157,8 @@ public class homeFragment extends Fragment {
 
                                         // Update UI
                                         textViewTotalArticlesCompleted.setText(numberOfArticlesCompleted + "/" + totalNumberOfArticles);
+                                        progressBar.setMax(Math.toIntExact(totalNumberOfArticles));
+                                        progressBar.setProgress(numberOfArticlesCompleted);
 
                                         // Find recommended article id
                                         findRecommendedArticleId(user, totalNumberOfArticles);
@@ -179,7 +184,7 @@ public class homeFragment extends Fragment {
 
     private void findRecommendedArticleId(User user, Long totalNumberOfArticles) {
         // Find ID for recommended article
-        for (int i = 1; i < totalNumberOfArticles; i++) {
+        for (int i = 1; i < totalNumberOfArticles + 1; i++) {
             if (!user.getArticlesCompleted().contains(i)) {
                 recommendedArticleId = i;
 
