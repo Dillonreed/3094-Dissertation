@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -71,7 +72,9 @@ public class articlePage extends AppCompatActivity {
 
         // Populate page with article information
         textViewTitle.setText(article.getTitle());
-        textViewContent.setText(article.getContent());
+
+        // Use HTML to enable formatting of content
+        textViewContent.setText(Html.fromHtml(article.getContent(), 1));
 
         webViewVideo.loadData(article.getVideoLink(), "text/html", "utf-8");
         webViewVideo.getSettings().setJavaScriptEnabled(true);
