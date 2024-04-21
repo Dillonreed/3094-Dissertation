@@ -142,6 +142,9 @@ public class settingsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // Get string for account title
+        String accountTitle = getString(R.string.settings_account_title);
+
         // Get user object to retrieve username
         // Extract username from email, and capitalize the first letter
         String username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf("@"));
@@ -158,7 +161,7 @@ public class settingsFragment extends Fragment {
                         user = documentSnapshot.toObject(User.class);
 
                         // Update UI elements
-                        textViewAccountTitle.setText(user.getUsername() + "'s " + textViewAccountTitle.getText().toString());
+                        textViewAccountTitle.setText(user.getUsername() + "'s " + accountTitle);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
