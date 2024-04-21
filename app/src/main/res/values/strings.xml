@@ -22,13 +22,15 @@
     <string name="register_button_create_account_text">Create Account</string>
 
     <string name="terms_and_conditions_description">
-        Placeholder terms and conditions\n
-        Placeholder terms and conditions\n
-        Placeholder terms and conditions\n
-        Placeholder terms and conditions\n
-        Placeholder terms and conditions\n
-        Placeholder terms and conditions\n
-        Placeholder terms and conditions
+        Due to data protection your password is not accessible to us as we encrypt your password
+        when creating your account, as such we will not be able to help you in the case that you
+        forget your username or password.
+        \n\nThis application will store information related
+        to your actions within the app, like marking articles as complete.
+        \n\nThis ensures that you are able to view your progress through the guides on different
+        devices, in addition to helping us recommend you an article for your next read.
+        \n\nShould you wish to delete your account at any time, there is an option available within
+        the application which would delete all data related to your account.
     </string>
 
     <string name="login_title">Login</string>
@@ -127,7 +129,7 @@
     provide feedback on anything within application.</string>
 
     <string name="contact_us_description">If you would like to reach out to us or provide some
-    feedback, you can contact us on the following email : \n\n EMAIL@EMAIL.COM</string>
+    feedback, you can contact us on the following email : \n\n LearnDigitalSkills3094@gmail.com</string>
 
     <string name="delete_account_description_text">Are you <b>sure</b> you want to delete your
         account? Your data will permanently be deleted. \n\nPlease enter your current password to
