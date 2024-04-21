@@ -11,7 +11,8 @@
     <string name="welcome_button_login_text">Login</string>
 
     <string name="register_title">Create Account</string>
-    <string name="register_username_information">Your generated username is the following : </string>
+    <string name="register_username_information">Your generated username is the following :\n\u2022
+        Please make a note of it, as you will need it to login</string>
     <string name="register_generated_username">Generated Username</string>
     <string name="register_password_information">You will need to create a password for the application,
     you will then need to enter the password a second time to ensure you have written it correctly.</string>
