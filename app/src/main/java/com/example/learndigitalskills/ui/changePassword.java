@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class changePassword extends AppCompatActivity {
 
-    private FirebaseUser user;
+    private FirebaseUser currentUser;
 
     Toolbar changePasswordToolbar;
     EditText editTextOldPassword, editTextNewPassword, editTextNewPasswordConfirm;
@@ -35,7 +35,7 @@ public class changePassword extends AppCompatActivity {
         setContentView(R.layout.change_password_page);
 
         // Initialize FirebaseUser
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Setup App Bar
         changePasswordToolbar = findViewById(R.id.change_password_toolbar);
@@ -100,15 +100,15 @@ public class changePassword extends AppCompatActivity {
 
     private void changeUserPassword(){
         // Obtain credential for user using their email and old password
-        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), editTextOldPassword.getText().toString());
+        AuthCredential credential = EmailAuthProvider.getCredential(currentUser.getEmail(), editTextOldPassword.getText().toString());
 
         // Reauthenticate user to be able to change password
-        user.reauthenticate(credential)
+        currentUser.reauthenticate(credential)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         // User is reauthenticated
-                        user.updatePassword(editTextNewPassword.getText().toString())
+                        currentUser.updatePassword(editTextNewPassword.getText().toString())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
